@@ -5,14 +5,14 @@
 /// via Navigation events.
 /// </summary>
 public class Context{
-    public int WorldScene = -1;
-    public int ViewScene = -1;
+    public int PrimaryScene = -1;
+    public int BufferScene = -1;
 }
 
 public class MainContext : Context{
     public MainContext(){
-        WorldScene = Scenes.MainWorld;
-        ViewScene = Scenes.MainView;
+        PrimaryScene = Scenes.MainView;
+        BufferScene = Scenes.MainWorld;
     }
 }
 
@@ -20,7 +20,7 @@ public class OtherContext : Context
 {
     public OtherContext()
     {
-        WorldScene = Scenes.OtherWorld;
-        ViewScene = Scenes.OtherView;
+        PrimaryScene = Scenes.OtherView;
+        BufferScene = Scenes.OtherWorld;
     }
 }

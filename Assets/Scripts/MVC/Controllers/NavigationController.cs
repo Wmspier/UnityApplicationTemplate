@@ -32,23 +32,23 @@ public class NavigationController : Controller {
         if (_currentContext != null)
         {
             var c = new Context();
-            if (_currentContext.WorldScene != context.WorldScene)
+            if (_currentContext.PrimaryScene != context.PrimaryScene)
             {
-                SceneManager.UnloadSceneAsync(_currentContext.WorldScene);
-                SceneManager.LoadScene(context.WorldScene);
-                c.WorldScene = context.WorldScene;
+                SceneManager.UnloadSceneAsync(_currentContext.PrimaryScene);
+                SceneManager.LoadScene(context.PrimaryScene);
+                c.PrimaryScene = context.PrimaryScene;
             }
             else
-                c.WorldScene = _currentContext.WorldScene;
+                c.PrimaryScene = _currentContext.PrimaryScene;
 
-            if (_currentContext.ViewScene != context.ViewScene)
+            if (_currentContext.BufferScene != context.BufferScene)
             {
-                SceneManager.UnloadSceneAsync(_currentContext.ViewScene);
-                SceneManager.LoadScene(context.ViewScene, LoadSceneMode.Additive);
-                c.ViewScene = context.ViewScene;
+                SceneManager.UnloadSceneAsync(_currentContext.BufferScene);
+                SceneManager.LoadScene(context.BufferScene, LoadSceneMode.Additive);
+                c.BufferScene = context.BufferScene;
             }
             else
-                c.ViewScene = _currentContext.ViewScene;
+                c.BufferScene = _currentContext.BufferScene;
             
             if(back)
                 _historyStack.Push(_currentContext);
@@ -56,8 +56,8 @@ public class NavigationController : Controller {
         }
         else
         {
-            SceneManager.LoadScene(context.WorldScene);
-            SceneManager.LoadScene(context.ViewScene, LoadSceneMode.Additive);
+            SceneManager.LoadScene(context.PrimaryScene);
+            SceneManager.LoadScene(context.BufferScene, LoadSceneMode.Additive);
 
             _currentContext = context;
         }

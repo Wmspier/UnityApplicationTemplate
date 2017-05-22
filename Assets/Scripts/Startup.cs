@@ -22,6 +22,8 @@ class Startup
         RegisterMVC(ref app);
         //Make main a persistant object
         Object.DontDestroyOnLoad(main);
+
+        Screen.orientation = ScreenOrientation.Portrait;
     }
 
     /// <summary>
