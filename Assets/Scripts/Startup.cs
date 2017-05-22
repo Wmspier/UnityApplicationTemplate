@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.UI;
 
-[InitializeOnLoad]
 class Startup
 {
     [RuntimeInitializeOnLoadMethod]
@@ -18,6 +16,8 @@ class Startup
         main.AddComponent<UnityEngine.EventSystems.EventSystem>();
         //InputModule for handling input
         main.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+        //Asset Database for loading all assets within 'Resources'
+        main.AddComponent<AssetDatabase>();
         //Register Models and Controllers
         RegisterMVC(ref app);
         //Make main a persistant object
@@ -33,5 +33,6 @@ class Startup
     {
         app.RegisterModel<GameModel>();
         app.RegisterController<NavigationController>();
+        app.RegisterController<PopupController>();
     }
 }

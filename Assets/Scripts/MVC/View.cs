@@ -10,4 +10,5 @@
 /// The ONLY logic within a view should be event dispatching and listening.
 /// </summary>
 public class View : MonoBehaviour {
+    
 }

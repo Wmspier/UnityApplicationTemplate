@@ -29,3 +29,18 @@ namespace DataEvents
         }
     }
 }
+
+namespace PopupEvents
+{
+    public struct OpenPopupEvent : BaseEvent{
+        public PopupAsset Popup;
+        public OpenPopupEvent(PopupAsset popup)
+        {
+            Popup = popup;
+        }
+    }
+
+    public struct ClosePopupEvent : BaseEvent
+    {
+    }
+}

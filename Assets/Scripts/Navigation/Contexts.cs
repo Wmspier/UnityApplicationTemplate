@@ -20,7 +20,7 @@ public class OtherContext : Context
 {
     public OtherContext()
     {
-        WorldScene = Scenes.MainWorld;
+        WorldScene = Scenes.OtherWorld;
         ViewScene = Scenes.OtherView;
     }
 }

@@ -61,8 +61,6 @@ public class NavigationController : Controller {
 
             _currentContext = context;
         }
-
-        Debug.Log("There are " + _historyStack.Count + " contexts in the stack!");
     }
 
     private void LoadPreviousContext()
