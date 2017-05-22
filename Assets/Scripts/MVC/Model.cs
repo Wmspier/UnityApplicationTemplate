@@ -3,5 +3,5 @@
 /// 
 /// They should include NO logic (aside from accessors and modifiers).
 /// </summary>
-public abstract class Model {
+public class Model {
 }

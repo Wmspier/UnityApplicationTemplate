@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 
 public class EventSystem{
@@ -24,21 +21,8 @@ public class EventSystem{
     public delegate void EventDelegate<T>(T e) where T : BaseEvent;
     private delegate void EventDelegate(BaseEvent e);
 
-    private Dictionary<Type, EventDelegate> delegates;
-    private Dictionary<Delegate, EventDelegate> delegateLookup;
-
-
-    private EventSystem()
-    {
-        if (delegates == null)
-        {
-            delegates = new Dictionary<System.Type, EventDelegate>();
-        }
-        if (delegateLookup == null)
-        {
-            delegateLookup = new Dictionary<System.Delegate, EventDelegate>();
-        }
-    }
+    private Dictionary<Type, EventDelegate> delegates = new Dictionary<System.Type, EventDelegate>();
+    private Dictionary<Delegate, EventDelegate> delegateLookup = new Dictionary<System.Delegate, EventDelegate>();
 
     public void Connect<T>(EventDelegate<T> del) where T : BaseEvent
     {

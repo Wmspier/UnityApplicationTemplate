@@ -10,14 +10,4 @@
 /// The ONLY logic within a view should be event dispatching and listening.
 /// </summary>
 public class View : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

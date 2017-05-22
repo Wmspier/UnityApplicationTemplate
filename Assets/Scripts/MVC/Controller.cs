@@ -5,7 +5,7 @@
 /// 
 /// Controllers should only delegate between models and views.
 /// </summary>
-public abstract class Controller {
+public class Controller {
 
     virtual public void Update() { }
 }

@@ -19,3 +19,12 @@ public struct ContextEvent : BaseEvent
         Context = context;
     }
 }
+
+public struct SetTextEvent : BaseEvent
+{
+    public string Text;
+    public SetTextEvent(string text)
+    {
+        Text = text;
+    }
+}
