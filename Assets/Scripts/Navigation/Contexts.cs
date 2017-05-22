@@ -4,14 +4,23 @@
 /// They are intended to be loaded by the Navigation Controller
 /// via Navigation events.
 /// </summary>
-public abstract class Context{
-    protected static int WorldScene = -1;
-    protected static int ViewScene = -1;
+public class Context{
+    public int WorldScene = -1;
+    public int ViewScene = -1;
 }
 
 public class MainContext : Context{
-    MainContext(){
-        WorldScene = Scenes.Main;
+    public MainContext(){
+        WorldScene = Scenes.MainWorld;
         ViewScene = Scenes.MainView;
+    }
+}
+
+public class OtherContext : Context
+{
+    public OtherContext()
+    {
+        WorldScene = Scenes.MainWorld;
+        ViewScene = Scenes.OtherView;
     }
 }

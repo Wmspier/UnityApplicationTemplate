@@ -32,6 +32,6 @@ class Startup
     static void RegisterMVC(ref ApplicationFacade app)
     {
         app.RegisterModel<GameModel>();
-        app.RegisterController<GameController>();
+        app.RegisterController<NavigationController>();
     }
 }

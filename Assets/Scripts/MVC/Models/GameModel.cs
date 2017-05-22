@@ -1,4 +1,5 @@
 ﻿public class GameModel : Model {
 
-    public string SomeData = "Yep";
+    public string MainViewText = "Load Other View";
+    public string OtherViewText = "Load Main View";
 }

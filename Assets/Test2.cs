@@ -12,7 +12,7 @@ public class Test2 : MonoBehaviour {
 	// Update is called once per frame
 	public void DotIt () {
 
-        DataEvent e = new DataEvent();
+        var e = new DataEvent();
         e.fuff = "fuff";
         EventSystem.instance.Dispatch(e);
 	}

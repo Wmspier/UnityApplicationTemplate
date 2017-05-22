@@ -8,6 +8,7 @@
 public static class Scenes {
 
     public static readonly int Invalid = -1;
-    public static readonly int Main = 0;
+    public static readonly int MainWorld = 0;
     public static readonly int MainView = 1;
+    public static readonly int OtherView = 2;
 }
