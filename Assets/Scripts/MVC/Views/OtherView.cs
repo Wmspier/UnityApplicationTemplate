@@ -7,6 +7,7 @@ public class OtherView : View
 {
     public Text testButtonText;
     public Button testButton;
+    public Button backButton;
 
     // Use this for initialization
     void Start()
@@ -15,11 +16,16 @@ public class OtherView : View
         var test = (GameModel)ApplicationFacade.instance.GetModel<GameModel>();
         testButtonText.text = test.OtherViewText;
 
-        var e = new LoadContextEvent();
-        e.Context = new MainContext();
+        var e = new NavigationEvents.LoadContextEvent(new MainContext(), true);
         testButton.onClick.AddListener(delegate
         {
             EventSystem.instance.Dispatch(e);
+        });
+
+        var event2 = new NavigationEvents.PreviousContextEvent();
+        backButton.onClick.AddListener(delegate
+        {
+            EventSystem.instance.Dispatch(event2);
         });
     }
 

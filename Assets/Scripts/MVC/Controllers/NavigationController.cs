@@ -5,59 +5,71 @@ using UnityEngine.SceneManagement;
 
 public class NavigationController : Controller {
 
-    private Stack<Context> _contextStack = new Stack<Context>();
+    private Stack<Context> _historyStack = new Stack<Context>();
+    private Context _currentContext;
 
     public NavigationController()
     {
-        EventSystem.instance.Connect<LoadContextEvent>(OnLoadContext);
+        EventSystem.instance.Connect<NavigationEvents.LoadContextEvent>(OnLoadContext);
+        EventSystem.instance.Connect<NavigationEvents.PreviousContextEvent>(OnLoadPreviousContext);
 
-        var e = new LoadContextEvent(new MainContext());
-        EventSystem.instance.Dispatch(e);
+        var event1 = new NavigationEvents.LoadContextEvent(new MainContext(), true);
+        EventSystem.instance.Dispatch(event1);
     }
 
-    public void OnLoadContext(LoadContextEvent e)
+    public void OnLoadContext(NavigationEvents.LoadContextEvent e)
     {
-        LoadContext(e.Context); 
+        LoadContext(e.Context, e.Back); 
     }
 
-    private void LoadContext(Context context)
+    public void OnLoadPreviousContext(NavigationEvents.PreviousContextEvent e)
     {
-        if (_contextStack.Count > 0)
+        LoadPreviousContext();
+    }
+
+    private void LoadContext(Context context, bool back)
+    {
+        if (_currentContext != null)
         {
             var c = new Context();
-            if (_contextStack.Peek().WorldScene != context.WorldScene)
+            if (_currentContext.WorldScene != context.WorldScene)
             {
-                SceneManager.UnloadSceneAsync(_contextStack.Peek().WorldScene);
+                SceneManager.UnloadSceneAsync(_currentContext.WorldScene);
                 SceneManager.LoadScene(context.WorldScene);
                 c.WorldScene = context.WorldScene;
             }
             else
-                c.WorldScene = _contextStack.Peek().WorldScene;
+                c.WorldScene = _currentContext.WorldScene;
 
-            if (_contextStack.Peek().ViewScene != context.ViewScene)
+            if (_currentContext.ViewScene != context.ViewScene)
             {
-                SceneManager.UnloadSceneAsync(_contextStack.Peek().ViewScene);
+                SceneManager.UnloadSceneAsync(_currentContext.ViewScene);
                 SceneManager.LoadScene(context.ViewScene, LoadSceneMode.Additive);
                 c.ViewScene = context.ViewScene;
             }
             else
-                c.ViewScene = _contextStack.Peek().ViewScene;
-            Debug.Log("Pushing context into stack" + c.WorldScene + " | " + c.ViewScene);
-            _contextStack.Push(c);
+                c.ViewScene = _currentContext.ViewScene;
+            
+            if(back)
+                _historyStack.Push(_currentContext);
+            _currentContext = c;
         }
         else
         {
             SceneManager.LoadScene(context.WorldScene);
             SceneManager.LoadScene(context.ViewScene, LoadSceneMode.Additive);
-            _contextStack.Push(context);
+
+            _currentContext = context;
         }
+
+        Debug.Log("There are " + _historyStack.Count + " contexts in the stack!");
     }
 
-    public void OnLoadPreviousContext()
+    private void LoadPreviousContext()
     { 
-        if (_contextStack.Count > 0)
+        if (_historyStack.Count > 0)
         {
-            LoadContext(_contextStack.Pop());
+            LoadContext(_historyStack.Pop(), false);
         }
         else
         {
