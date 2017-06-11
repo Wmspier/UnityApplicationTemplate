@@ -24,6 +24,8 @@ class Startup
         Object.DontDestroyOnLoad(main);
 
         Screen.orientation = ScreenOrientation.Portrait;
+
+        EventSystem.instance.Dispatch(new ApplicationEvents.StartUpFinishedEvent());
     }
 
     /// <summary>
@@ -35,6 +37,7 @@ class Startup
     {
         app.RegisterModel<GameModel>();
         app.RegisterController<NavigationController>();
-        app.RegisterController<PopupController>();
+		app.RegisterController<PopupController>();
+		app.RegisterController<ApplicationController>();
     }
 }

@@ -8,13 +8,18 @@ public class NavigationController : Controller {
     private Stack<Context> _historyStack = new Stack<Context>();
     private Context _currentContext;
 
+    private Stack<GameObject> _screenStack = new Stack<GameObject>();
+
     public NavigationController()
     {
         EventSystem.instance.Connect<NavigationEvents.LoadContextEvent>(OnLoadContext);
         EventSystem.instance.Connect<NavigationEvents.PreviousContextEvent>(OnLoadPreviousContext);
 
-        var event1 = new NavigationEvents.LoadContextEvent(new MainContext(), true);
-        EventSystem.instance.Dispatch(event1);
+        EventSystem.instance.Connect<NavigationEvents.LoadScreenEvent>(OnLoadScreen);
+        EventSystem.instance.Connect<NavigationEvents.UnloadScreen>(OnUnloadScreen);
+
+		//var event1 = new NavigationEvents.LoadContextEvent(new MainContext(), true);
+        //EventSystem.instance.Dispatch(event1);
     }
 
     public void OnLoadContext(NavigationEvents.LoadContextEvent e)
@@ -26,6 +31,21 @@ public class NavigationController : Controller {
     {
         LoadPreviousContext();
     }
+
+	public void OnLoadScreen(NavigationEvents.LoadScreenEvent e)
+	{
+
+        var NewScreenAsset = AssetDatabase.instance.GetAsset<BasicScreenAsset>(e.Id);
+        var NewScreen = GameObject.Instantiate(NewScreenAsset.ScreenPrefab);
+        NewScreen.name = NewScreenAsset.Id;
+        _screenStack.Push(NewScreen);
+	}
+
+	public void OnUnloadScreen(NavigationEvents.UnloadScreen e)
+	{
+        if (_screenStack.Count == 0) return;
+        GameObject.Destroy(_screenStack.Pop());
+	}
 
     private void LoadContext(Context context, bool back)
     {

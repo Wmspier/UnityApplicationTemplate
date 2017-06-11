@@ -1,6 +1,4 @@
-﻿public interface BaseEvent
-{
-}
+﻿public interface BaseEvent{}
 
 namespace NavigationEvents
 { 
@@ -15,8 +13,22 @@ namespace NavigationEvents
         }
     }
 
-    public struct PreviousContextEvent : BaseEvent { 
+    public struct PreviousContextEvent : BaseEvent {}
+
+    public struct LoadScreenEvent : BaseEvent {
+        public string Id;
+        public LoadScreenEvent(string id)
+        {
+            Id = id;
+        }
     }
+
+    public struct UnloadScreen : BaseEvent{}
+}
+
+namespace ApplicationEvents
+{
+    public struct StartUpFinishedEvent : BaseEvent{}
 }
 
 namespace DataEvents
@@ -40,7 +52,7 @@ namespace PopupEvents
         }
     }
 
-    public struct ClosePopupEvent : BaseEvent
-    {
-    }
+    public struct ClosePopupEvent : BaseEvent{}
 }
+
+

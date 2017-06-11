@@ -35,10 +35,12 @@ public class MainView : View {
         _spawnFrequency = SpawnFrequency;
         _cloudContainer = new GameObject("[Cloud_Container]");
         _cloudContainer.transform.SetParent(Content.transform);
-        
-        var event1 = new NavigationEvents.LoadContextEvent(new OtherContext(), true);
+
+
+
+        var loadScreenEvent = new NavigationEvents.LoadScreenEvent("DUNGEON");
         testButton.onClick.AddListener( delegate {
-            EventSystem.instance.Dispatch(event1);
+            EventSystem.instance.Dispatch(loadScreenEvent);
         });
 	}
 	
