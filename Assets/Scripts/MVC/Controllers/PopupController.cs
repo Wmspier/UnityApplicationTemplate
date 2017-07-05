@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Assets.Scripts.EventSystem;
+using PopupEvents;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +10,8 @@ public class PopupController : Controller {
     static public GameObject View;
 
     public PopupController(){
-        EventSystem.instance.Connect<PopupEvents.OpenPopupEvent>(OnPopupOpen);
-        EventSystem.instance.Connect<PopupEvents.ClosePopupEvent>(OnPopupClose);
+        EventSystem.Instance.Connect<PopupEvents.OpenPopupEvent>(OnPopupOpen);
+        EventSystem.Instance.Connect<PopupEvents.ClosePopupEvent>(OnPopupClose);
     }
 
     private void InstantiateView() {
@@ -26,7 +28,8 @@ public class PopupController : Controller {
     {
         if (View == null) InstantiateView();
 
-        View.GetComponent<PopupView>().StackPopup(e.Popup);
+        var args = (OpenPopupArgs)e.Args;
+        View.GetComponent<PopupView>().StackPopup(args.Popup);
     }
 
     private void OnPopupClose(PopupEvents.ClosePopupEvent e)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.EventSystem;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PopupForm : MonoBehaviour {
@@ -10,11 +11,11 @@ public class PopupForm : MonoBehaviour {
 
         var e = new PopupEvents.ClosePopupEvent();
         CloseButton.onClick.AddListener(delegate {
-                EventSystem.instance.Dispatch(e);
+              EventSystem.Instance.Dispatch(e);
         });
         BgCloseButton.onClick.AddListener(delegate
         {
-            EventSystem.instance.Dispatch(e);
+             EventSystem.Instance.Dispatch(e);
         });
     }
 }

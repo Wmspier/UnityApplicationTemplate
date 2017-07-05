@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.EventSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ class Startup
         main.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
         //Asset Database for loading all assets within 'Resources'
         main.AddComponent<AssetDatabase>();
+        //Main update for updating event system
+        main.AddComponent<MainUpdate>();
         //Register Models and Controllers
         RegisterMVC(ref app);
         //Make main a persistant object
@@ -25,7 +28,7 @@ class Startup
 
         Screen.orientation = ScreenOrientation.Portrait;
 
-        EventSystem.instance.Dispatch(new ApplicationEvents.StartUpFinishedEvent());
+        EventSystem.Instance.Dispatch(new ApplicationEvents.StartUpFinishedEvent());
     }
 
     /// <summary>

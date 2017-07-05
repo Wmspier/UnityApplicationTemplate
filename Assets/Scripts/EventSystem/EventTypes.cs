@@ -1,58 +1,60 @@
-﻿public interface BaseEvent{}
+﻿using System;
+
+public interface IBaseEvent{}
+
+public class EventArgs: System.EventArgs{}
+
+public class BaseEvent : IBaseEvent
+{
+    public EventArgs Args;
+    protected BaseEvent(EventArgs args = null)
+    {
+        Args = args;
+    }
+}
 
 namespace NavigationEvents
-{ 
-    public struct LoadContextEvent : BaseEvent {
-        public Context Context;
-        public bool Back;
-
-        public LoadContextEvent(Context context, bool back)
-        {
-            Context = context;
-            Back = back;
-        }
+{
+    public class LoadScreenEvent : BaseEvent
+    {
+        public LoadScreenEvent(EventArgs a) : base(a) { }
     }
-
-    public struct PreviousContextEvent : BaseEvent {}
-
-    public struct LoadScreenEvent : BaseEvent {
+    public class LoadScreenArgs : EventArgs
+    {
         public string Id;
-        public LoadScreenEvent(string id)
+        public LoadScreenArgs(string id)
         {
             Id = id;
         }
     }
+    
 
-    public struct UnloadScreen : BaseEvent{}
+    public class UnloadScreen : BaseEvent { }
 }
 
 namespace ApplicationEvents
 {
-    public struct StartUpFinishedEvent : BaseEvent{}
-}
-
-namespace DataEvents
-{ 
-    public struct SetTextEvent : BaseEvent {
-        public string Text;
-        public SetTextEvent(string text)
-        {
-            Text = text;
-        }
-    }
+    public class StartUpFinishedEvent : BaseEvent{}
 }
 
 namespace PopupEvents
 {
-    public struct OpenPopupEvent : BaseEvent{
+    public class OpenPopupArgs : EventArgs
+    {
         public PopupAsset Popup;
-        public OpenPopupEvent(PopupAsset popup)
+
+        public OpenPopupArgs(PopupAsset popup)
         {
             Popup = popup;
         }
     }
 
-    public struct ClosePopupEvent : BaseEvent{}
+    public class OpenPopupEvent : BaseEvent
+    {
+        public OpenPopupEvent(OpenPopupArgs args) : base(args){}
+    }
+
+    public class ClosePopupEvent : BaseEvent { }
 }
 
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.EventSystem;
+using NavigationEvents;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,30 +14,17 @@ public class NavigationController : Controller {
 
     public NavigationController()
     {
-        EventSystem.instance.Connect<NavigationEvents.LoadContextEvent>(OnLoadContext);
-        EventSystem.instance.Connect<NavigationEvents.PreviousContextEvent>(OnLoadPreviousContext);
-
-        EventSystem.instance.Connect<NavigationEvents.LoadScreenEvent>(OnLoadScreen);
-        EventSystem.instance.Connect<NavigationEvents.UnloadScreen>(OnUnloadScreen);
+        EventSystem.Instance.Connect<LoadScreenEvent>(OnLoadScreen);
+        EventSystem.Instance.Connect<UnloadScreen>(OnUnloadScreen);
 
 		//var event1 = new NavigationEvents.LoadContextEvent(new MainContext(), true);
         //EventSystem.instance.Dispatch(event1);
     }
 
-    public void OnLoadContext(NavigationEvents.LoadContextEvent e)
-    {
-        LoadContext(e.Context, e.Back); 
-    }
-
-    public void OnLoadPreviousContext(NavigationEvents.PreviousContextEvent e)
-    {
-        LoadPreviousContext();
-    }
-
-	public void OnLoadScreen(NavigationEvents.LoadScreenEvent e)
+	public void OnLoadScreen(LoadScreenEvent e)
 	{
-
-        var NewScreenAsset = AssetDatabase.instance.GetAsset<BasicScreenAsset>(e.Id);
+	    var args = (LoadScreenArgs)e.Args;
+        var NewScreenAsset = AssetDatabase.instance.GetAsset<BasicScreenAsset>(args.Id);
         var NewScreen = GameObject.Instantiate(NewScreenAsset.ScreenPrefab);
         NewScreen.name = NewScreenAsset.Id;
         _screenStack.Push(NewScreen);

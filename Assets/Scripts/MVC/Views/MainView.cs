@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.EventSystem;
+using NavigationEvents;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,12 +39,13 @@ public class MainView : View {
         _cloudContainer.transform.SetParent(Content.transform);
 
 
-
-        var loadScreenEvent = new NavigationEvents.LoadScreenEvent("DUNGEON");
-        testButton.onClick.AddListener( delegate {
-            EventSystem.instance.Dispatch(loadScreenEvent);
+        
+        var LoadScreenEvent = new LoadScreenEvent(new LoadScreenArgs("DUNGEON"));
+        testButton.onClick.AddListener(delegate
+        {
+            EventSystem.Instance.Dispatch(LoadScreenEvent);
         });
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {

@@ -1,20 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.EventSystem;
+using NavigationEvents;
 using UnityEngine;
 
 public class ApplicationController : Controller
 {
     public ApplicationController()
 	{
-		EventSystem.instance.Connect<ApplicationEvents.StartUpFinishedEvent>(OnApplicationStart);
+		EventSystem.Instance.Connect<ApplicationEvents.StartUpFinishedEvent>(OnApplicationStart);
     }
 
     public void OnApplicationStart(ApplicationEvents.StartUpFinishedEvent e)
 	{
         //Create a load screen event and dispatch it to be picked up by NavicationController
-        var LoadScreenEvent = new NavigationEvents.LoadScreenEvent();
-        LoadScreenEvent.Id = "MAIN";
-        EventSystem.instance.Dispatch(LoadScreenEvent);
-        Debug.Log("MADE IT");
+        var LoadScreenEvent = new LoadScreenEvent(new LoadScreenArgs("MAIN"));
+        //EventSystem.Instance.Dispatch(LoadScreenEvent);
+        EventSystem.Instance.QueueEvent(LoadScreenEvent);
     }
 }

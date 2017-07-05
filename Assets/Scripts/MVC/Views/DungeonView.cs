@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.EventSystem;
+using PopupEvents;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,14 +16,14 @@ public class DungeonView : View
         var UnloadScreenEvent = new NavigationEvents.UnloadScreen();
         BackButton.onClick.AddListener(delegate
         {
-            EventSystem.instance.Dispatch(UnloadScreenEvent);
+            EventSystem.Instance.Dispatch(UnloadScreenEvent);
         });
 
         var Popup = AssetDatabase.instance.GetAsset<PopupAsset>("BASIC");
-        var PopupEvent = new PopupEvents.OpenPopupEvent(Popup);
+        var PopupEvent = new PopupEvents.OpenPopupEvent(new OpenPopupArgs(Popup));
         PopupButton.onClick.AddListener(delegate
         {
-            EventSystem.instance.Dispatch(PopupEvent);
+            EventSystem.Instance.Dispatch(PopupEvent);
         });
     }
 
