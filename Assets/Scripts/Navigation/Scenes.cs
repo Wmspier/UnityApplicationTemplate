@@ -12,4 +12,6 @@ public static class Scenes {
     public static readonly int MainView = 1;
     public static readonly int OtherWorld = 2;
     public static readonly int OtherView = 3;
+    public static readonly int GridWorld = 4;
+    public static readonly int GridView = 5;
 }

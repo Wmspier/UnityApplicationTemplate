@@ -44,3 +44,15 @@ namespace PopupEvents
     {
     }
 }
+
+namespace GridEvents
+{
+    public struct CreateDataEvent : BaseEvent
+    {
+
+    }
+
+    public struct ConstructGridEvent : BaseEvent
+    {
+    }
+}

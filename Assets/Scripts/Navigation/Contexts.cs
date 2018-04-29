@@ -24,3 +24,12 @@ public class OtherContext : Context
         ViewScene = Scenes.OtherView;
     }
 }
+
+public class GridContext : Context
+{
+    public GridContext()
+    {
+        WorldScene = Scenes.GridWorld;
+        ViewScene = Scenes.GridView;
+    }
+}

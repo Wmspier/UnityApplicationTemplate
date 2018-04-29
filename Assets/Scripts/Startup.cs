@@ -34,5 +34,7 @@ class Startup
         app.RegisterModel<GameModel>();
         app.RegisterController<NavigationController>();
         app.RegisterController<PopupController>();
+        app.RegisterModel<GridModel>();
+        app.RegisterController<GridController>();
     }
 }
