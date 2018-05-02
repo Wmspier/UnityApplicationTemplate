@@ -3,18 +3,6 @@
     public int Rows { get; set; }
     public int Columns { get; set; }
 
-    public struct TileModel
-    {
-        int RowNumber;
-        int ColumnNumber;
-
-        public TileModel(int r, int c)
-        {
-            RowNumber = r;
-            ColumnNumber = c;
-        }
-    }
-
     public TileModel[,] Grid { get; private set; }
 
     public void ConstructGridMatrix()

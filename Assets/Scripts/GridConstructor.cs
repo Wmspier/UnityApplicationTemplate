@@ -43,10 +43,10 @@ public class GridConstructor : MonoBehaviour
             for (int r = 0; r < gridModel.Columns; ++r)
             {
                 var newTile = Instantiate(_tilePrefab, _gridRoot.transform);
-                newTile.name = string.Format("Tile c{0},r {1}", c, r);
+                newTile.name = string.Format("Tile c{0},r {1}", r, c);
+                newTile.AddComponent<TileView>().InitializeTile(r, c);
 
                 newTile.transform.position = new Vector2(r * CellDimensions.x, c * CellDimensions.y);
-
             }
         }
     }
