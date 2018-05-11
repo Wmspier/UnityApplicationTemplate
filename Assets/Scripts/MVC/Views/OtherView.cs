@@ -10,7 +10,6 @@ public class OtherView : View
     public Button BackButton;
     public Button PopupButton;
 
-    // Use this for initialization
     void Start()
     {
 
@@ -35,11 +34,5 @@ public class OtherView : View
         {
             EventSystem.instance.Dispatch(event3);
         });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

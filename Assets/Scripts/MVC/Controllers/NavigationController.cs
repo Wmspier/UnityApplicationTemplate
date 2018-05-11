@@ -34,7 +34,6 @@ public class NavigationController : Controller {
             var c = new Context();
             if (_currentContext.WorldScene != context.WorldScene)
             {
-                SceneManager.UnloadSceneAsync(_currentContext.WorldScene);
                 SceneManager.LoadScene(context.WorldScene);
                 c.WorldScene = context.WorldScene;
             }
@@ -43,7 +42,6 @@ public class NavigationController : Controller {
 
             if (_currentContext.ViewScene != context.ViewScene)
             {
-                SceneManager.UnloadSceneAsync(_currentContext.ViewScene);
                 SceneManager.LoadScene(context.ViewScene, LoadSceneMode.Additive);
                 c.ViewScene = context.ViewScene;
             }

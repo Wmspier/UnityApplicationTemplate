@@ -15,7 +15,14 @@ public class GridConstructor : MonoBehaviour
     [Header("Grid Settings")]
     public int Rows = 1;
     public int Columns = 1;
-    public Vector2 CellDimensions = Vector2.one;
+
+    public float GridWidth{
+        get { return _tilePrefab.GetComponent<MeshRenderer>().bounds.size.x * Columns; }
+    }
+    public float GridLength
+    {
+        get { return _tilePrefab.GetComponent<MeshRenderer>().bounds.size.z * Rows; }
+    }
 
     private void Awake()
     {
@@ -38,6 +45,8 @@ public class GridConstructor : MonoBehaviour
     public void InstantiateGrid(GridEvents.ConstructGridEvent e)
     {
         GridModel gridModel = (GridModel)ApplicationFacade.instance.GetModel<GridModel>();
+        float tileSize = 0f;
+        Vector3 center = new Vector3();
         for (int c = 0; c < gridModel.Rows; ++c)
         {
             for (int r = 0; r < gridModel.Columns; ++r)
@@ -46,10 +55,23 @@ public class GridConstructor : MonoBehaviour
                 newTile.name = string.Format("Tile c{0},r {1}", r, c);
                 newTile.AddComponent<TileView>().InitializeTile(r, c);
 
-                newTile.transform.position = new Vector2(r * CellDimensions.x, c * CellDimensions.y);
+                tileSize = newTile.GetComponent<MeshRenderer>().bounds.size.x;
+
+                newTile.transform.position = new Vector3(r * tileSize, 0f, c * tileSize);
             }
         }
+
+        center = transform.position;
+        center.x += Columns % 2 == 0 ? (tileSize * (float)(Columns - 1) / 2f) : (tileSize * (float)Columns / 2f);
+        center.z += Rows % 2 == 0 ? (tileSize * (float)(Rows - 1) / 2f) : (tileSize * (float)Rows / 2f);
+
+        var gridConstructedEvent = new GridEvents.GridConstructedEvent(
+            rows: gridModel.Rows,
+            columns: gridModel.Columns,
+            size: tileSize,
+            center: center
+        );
+        EventSystem.instance.Dispatch(gridConstructedEvent);
+        ConsoleLogger.LogObjectFields(this);
     }
-
-
 }

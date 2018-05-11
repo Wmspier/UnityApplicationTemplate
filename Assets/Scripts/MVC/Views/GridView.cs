@@ -5,9 +5,24 @@ using UnityEngine.UI;
 
 public class GridView : View
 {
-    public void OnCreateGridButton()
+    [Header("Buttons")]
+    public Button BackButton;
+    public Button GenerateGridButton;
+    public Button PlaceHeroButton;
+
+    void Start()
     {
-        var gridEvent = new GridEvents.CreateDataEvent();
-        EventSystem.instance.Dispatch(gridEvent);
+
+        GenerateGridButton.onClick.AddListener(delegate
+        {
+            var gridEvent = new GridEvents.CreateDataEvent();
+            EventSystem.instance.Dispatch(gridEvent);
+        });
+
+        var event2 = new NavigationEvents.PreviousContextEvent();
+        BackButton.onClick.AddListener(delegate
+        {
+            EventSystem.instance.Dispatch(event2);
+        });
     }
 }

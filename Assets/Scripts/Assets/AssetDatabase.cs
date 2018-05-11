@@ -30,7 +30,7 @@ public class AssetDatabase : MonoBehaviour
         var dict = new Dictionary<string, ScriptableObject>();
         if (_assets.TryGetValue(typeof(T), out dict))
         {
-            var asset = new ScriptableObject();
+            ScriptableObject asset;
             if (dict.TryGetValue(id, out asset))
                 return asset as T;
         }
