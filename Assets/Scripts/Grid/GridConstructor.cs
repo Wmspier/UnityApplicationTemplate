@@ -27,7 +27,7 @@ public class GridConstructor : MonoBehaviour
     private void Awake()
     {
         //  Applying GridSettings to GridModel -- move to event for controller
-        GridModel gridModel = (GridModel)ApplicationFacade.instance.GetModel<GridModel>();
+        GridModel gridModel = ApplicationFacade.instance.GetModel<GridModel>();
         gridModel.Rows = Rows;
         gridModel.Columns = Columns;
     }
@@ -44,16 +44,18 @@ public class GridConstructor : MonoBehaviour
 
     public void InstantiateGrid(GridEvents.ConstructGridEvent e)
     {
-        GridModel gridModel = (GridModel)ApplicationFacade.instance.GetModel<GridModel>();
+        GridModel gridModel = ApplicationFacade.instance.GetModel<GridModel>();
         float tileSize = 0f;
         Vector3 center = new Vector3();
-        for (int c = 0; c < gridModel.Rows; ++c)
+        for (int c = 0; c < Rows; ++c)
         {
-            for (int r = 0; r < gridModel.Columns; ++r)
+            for (int r = 0; r < Columns; ++r)
             {
-                var newTile = Instantiate(_tilePrefab, _gridRoot.transform);
+                var newTile = Instantiate(_tilePrefab, _gridRoot.transform).GetComponent<Tile>();
                 newTile.name = string.Format("Tile c{0},r {1}", r, c);
-                newTile.AddComponent<TileView>().InitializeTile(r, c);
+                newTile.RowNumber = r;
+                newTile.ColumnNumber = c;
+                newTile.gameObject.AddComponent<InteractiveTileDebug>();
 
                 tileSize = newTile.GetComponent<MeshRenderer>().bounds.size.x;
 
@@ -72,6 +74,5 @@ public class GridConstructor : MonoBehaviour
             center: center
         );
         EventSystem.instance.Dispatch(gridConstructedEvent);
-        ConsoleLogger.LogObjectFields(this);
     }
 }

@@ -31,10 +31,14 @@ class Startup
     /// <param name="app">A reference to an ApplicationFacade component</param>
     static void RegisterMVC(ref ApplicationFacade app)
     {
+        //Need to register models first because they're referecned in Controller Constructors
+        //TODO - fix this
         app.RegisterModel<GameModel>();
-        app.RegisterController<NavigationController>();
-        app.RegisterController<PopupController>();
         app.RegisterModel<GridModel>();
+
+        app.RegisterController<NavigationController>();
         app.RegisterController<GridController>();
+        app.RegisterController<GridMovementController>();
+        app.RegisterController<GridPopupController>();
     }
 }

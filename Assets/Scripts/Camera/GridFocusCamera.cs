@@ -5,12 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(OrbitCamera))]
 public class GridFocusCamera : MonoBehaviour {
 
-    private Camera _cameraComponent;
     private GameObject _focus;
 
     private void Start()
     {
-        _focus = new GameObject();
+        _focus = new GameObject("CameraFocus");
         EventSystem.instance.Connect<GridEvents.GridConstructedEvent>(PositionCamera);
     }
 

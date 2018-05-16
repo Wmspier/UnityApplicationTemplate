@@ -42,6 +42,17 @@ namespace PopupEvents
         }
     }
 
+    public struct OpenPopupAboveUnitEvent : BaseEvent{
+
+        public PopupAsset Popup;
+        public GameObject Unit;
+        public OpenPopupAboveUnitEvent(PopupAsset popup, GameObject o)
+        {
+            Popup = popup;
+            Unit = o;
+        }
+    }
+
     public struct ClosePopupEvent : BaseEvent {}
 }
 
@@ -63,5 +74,42 @@ namespace GridEvents
         public int Columns;
         public float TileSize;
         public Vector3 GridCenter;
+    }
+
+    public struct TileSelectedEvent : BaseEvent {
+        public TileSelectedEvent(Tile selectedTile)
+        {
+            SelectedTile = selectedTile;
+        }
+        public Tile SelectedTile;
+    }
+}
+
+namespace UnitEvents
+{
+    public struct PlaceHeroEvent : BaseEvent
+    {
+    }
+    public struct UnitSelectedEvent : BaseEvent
+    {
+        public UnitSelectedEvent(Unit unit)
+        {
+            SelectedUnit = unit;
+        }
+        public Unit SelectedUnit;
+    }
+    public struct UnitMoveEvent : BaseEvent {
+        public UnitMoveEvent(Unit unit)
+        {
+            SelectedUnit = unit;
+        }
+        public Unit SelectedUnit;
+    }
+    public struct UnitStateChangeEvent : BaseEvent {
+        public UnitStateChangeEvent(Unit.UnitState state)
+        {
+            State = state;
+        }
+        public Unit.UnitState State;
     }
 }

@@ -18,19 +18,34 @@ public class OrbitCamera : MonoBehaviour {
     float x = 0.0f;
     float y = 0.0f;
 
+    private bool _dragging;
+
     void Start()
     {
-        EventSystem.instance.Connect<GridEvents.GridConstructedEvent>(delegate {
-            Vector3 angles = transform.eulerAngles;
-                x = angles.y;
-                y = angles.x;
-        });
+        EventSystem.instance.Connect<GridEvents.GridConstructedEvent>(Instantiate);
+    }
+
+    private void OnDestroy()
+    {
+        EventSystem.instance.Disconnect<GridEvents.GridConstructedEvent>(Instantiate);
+    }
+
+    private void Instantiate(GridEvents.GridConstructedEvent e)
+    {
+        Vector3 angles = transform.eulerAngles;
+        x = angles.y;
+        y = angles.x;
     }
 
     void LateUpdate()
     {
+        if (IsIntersectingObject() && !_dragging && Input.GetAxis("Mouse ScrollWheel").Equals(0))
+            return;
+        
         if (target && (Input.GetMouseButton(0) || Input.touchCount > 0 || !Input.GetAxis("Mouse ScrollWheel").Equals(0)))
         {
+            _dragging = true;
+
             x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
             y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
@@ -43,7 +58,8 @@ public class OrbitCamera : MonoBehaviour {
             RaycastHit hit;
             if (Physics.Linecast(target.position, transform.position, out hit))
             {
-                distance -= hit.distance;
+                if(hit.transform.tag != "Unit")
+                    distance -= hit.distance;
             }
             Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
             Vector3 position = rotation * negDistance + target.position;
@@ -51,14 +67,31 @@ public class OrbitCamera : MonoBehaviour {
             transform.rotation = rotation;
             transform.position = position;
         }
+        else
+        {
+            _dragging = false;
+        }
     }
 
-    public static float ClampAngle(float angle, float min, float max)
+    private static float ClampAngle(float angle, float min, float max)
     {
         if (angle < -360F)
             angle += 360F;
         if (angle > 360F)
             angle -= 360F;
         return Mathf.Clamp(angle, min, max);
+    }
+
+    private bool IsIntersectingObject()
+    {
+        RaycastHit hit;
+        Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Transform objectHit = hit.transform;
+            return true;
+        }
+        return false;
     }
 }
