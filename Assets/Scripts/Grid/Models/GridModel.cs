@@ -1,5 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using System.Collections;
 
 public class GridModel : Model
 {
@@ -12,4 +13,23 @@ public class GridModel : Model
     public Hero Hero { get; set; }
 
     public Unit SelectedUnit { get; set; }
+
+    public List<Unit> Units { get; set; }
+
+    public GridModel()
+    {
+        Units = new List<Unit>();
+    }
+
+    public List<Unit> GetUnitsInState(Unit.UnitState state){
+        return Units.Where(u => u.State == state).ToList();
+    }
+
+    public bool AreUnitsInteracting()
+    {
+        return Units.Count == 0 ||
+               (GetUnitsInState(Unit.UnitState.Moving).Count == 0 &&
+                GetUnitsInState(Unit.UnitState.BeginMove).Count == 0 &&
+                GetUnitsInState(Unit.UnitState.Selected).Count == 0);
+    }
 }

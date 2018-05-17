@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NavigationController : Controller {
+public class NavigationController : IController {
 
     private Stack<Context> _historyStack = new Stack<Context>();
     private Context _currentContext;
@@ -16,6 +16,8 @@ public class NavigationController : Controller {
         var event1 = new NavigationEvents.LoadContextEvent(new MainContext(), true);
         EventSystem.instance.Dispatch(event1);
     }
+
+    public void Update(){}
 
     public void OnLoadContext(NavigationEvents.LoadContextEvent e)
     {

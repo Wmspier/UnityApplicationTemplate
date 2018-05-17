@@ -7,7 +7,7 @@ public class ApplicationFacade : MonoBehaviour {
     
     public static ApplicationFacade instance;
 
-    private Dictionary<Type, Controller> _controllers;
+    private Dictionary<Type, IController> _controllers;
     private Dictionary<Type, Model> _models;
 
     private void Awake()
@@ -17,7 +17,7 @@ public class ApplicationFacade : MonoBehaviour {
         else
             Destroy(gameObject);
 
-        _controllers = new Dictionary<Type, Controller>();
+        _controllers = new Dictionary<Type, IController>();
         _models = new Dictionary<Type, Model>();
     }
 
@@ -36,7 +36,7 @@ public class ApplicationFacade : MonoBehaviour {
         return temp as T;
     }
 
-    public void RegisterController<T>() where T : Controller, new()
+    public void RegisterController<T>() where T : IController, new()
     {
         if (_controllers.ContainsKey(typeof(T)))
             return;

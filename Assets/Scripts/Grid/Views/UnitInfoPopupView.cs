@@ -29,4 +29,16 @@ public class UnitInfoView : PopupView {
         modPos.y += 10;
         form.transform.position = modPos;
     }
+
+    public void StackUnitPopup(PopupAsset popup, GameObject unit)
+    {
+        var form = Instantiate(popup.Popup).GetComponent<UnitInfoPopupForm>();
+        var unitInfo = unit.GetComponent<Unit>();
+
+        form.UnitNameText.text = unitInfo.Name;
+        form.MovementText.text = string.Format("Remaining Movement: {0}", unitInfo.RemainingMovement);
+
+        _popupContainer.Push(form.gameObject);
+        _popupContainer.Peek().transform.SetParent(transform, false);
+    }
 }

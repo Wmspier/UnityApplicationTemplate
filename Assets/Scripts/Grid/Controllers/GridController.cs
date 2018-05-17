@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridController : Controller
+public class GridController : IController
 {
     private GridModel _model;
 
@@ -20,6 +20,8 @@ public class GridController : Controller
         EventSystem.instance.Disconnect<GridEvents.CreateDataEvent>(OnCreateGrid);
         EventSystem.instance.Disconnect<GridEvents.TileSelectedEvent>(OnTileSelcted);
     }
+
+    public void Update() { }
 
     public void OnCreateGrid(GridEvents.CreateDataEvent e)
     {

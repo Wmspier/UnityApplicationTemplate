@@ -5,6 +5,7 @@
 /// 
 /// Controllers should only delegate between models and views.
 /// </summary>
-public class Controller {
-    virtual public void Update() { }
+public interface IController
+{
+    void Update();
 }

@@ -15,7 +15,7 @@ public class PopupView : View {
         _transform.anchorMax = new Vector2(1, 1);
     }
 
-    public void StackPopup(PopupAsset popup)
+    public virtual void StackPopup(PopupAsset popup)
     { 
         _popupContainer.Push(Instantiate(popup.Popup));
         _popupContainer.Peek().transform.SetParent(transform, false);

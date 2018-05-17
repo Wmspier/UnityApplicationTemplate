@@ -113,3 +113,9 @@ namespace UnitEvents
         public Unit.UnitState State;
     }
 }
+
+namespace DebugEvents
+{
+    public struct ResetAllRemainingMovementEvent : BaseEvent {
+    }
+}

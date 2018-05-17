@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupController : Controller {
+public class PopupController : IController {
 
     protected GameObject View;
 
@@ -18,7 +18,9 @@ public class PopupController : Controller {
         EventSystem.instance.Disconnect<PopupEvents.ClosePopupEvent>(OnPopupClose);
     }
 
-    protected void InstantiateView() 
+    public void Update() { }
+
+    protected virtual void InstantiateView() 
     {
         var viewRoot = GameObject.FindWithTag("PopupRoot");
         if (viewRoot == null)
@@ -30,14 +32,14 @@ public class PopupController : Controller {
         View.transform.SetParent(viewRoot.gameObject.transform,false);
     }
 
-    protected void OnPopupOpen(PopupEvents.OpenPopupEvent e)
+    protected virtual void OnPopupOpen(PopupEvents.OpenPopupEvent e)
     {
         if (View == null) InstantiateView();
 
         View.GetComponent<PopupView>().StackPopup(e.Popup);
     }
 
-    protected void OnPopupClose(PopupEvents.ClosePopupEvent e)
+    protected virtual void OnPopupClose(PopupEvents.ClosePopupEvent e)
     {
         if (View == null)
             return;

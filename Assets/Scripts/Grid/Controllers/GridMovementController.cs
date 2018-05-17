@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridMovementController : Controller {
+public class GridMovementController : IController {
 
     private Unit _movingUnit;
     private Tile _unitTarget;
@@ -14,7 +14,7 @@ public class GridMovementController : Controller {
         EventSystem.instance.Connect<UnitEvents.UnitMoveEvent>(OnUnitMoved);
     }
 
-	public override void Update()
+	public void Update()
     {
         if(_movingUnit != null)
         {

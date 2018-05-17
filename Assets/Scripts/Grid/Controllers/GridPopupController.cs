@@ -29,7 +29,16 @@ public class GridPopupController : PopupController
 
         View.GetComponent<UnitInfoView>().StackPopupOverUnit(e.Popup, e.Unit);
     }
-    protected new void InstantiateView()
+
+    protected override void OnPopupOpen(PopupEvents.OpenPopupEvent e)
+    {
+        if (View == null) 
+            InstantiateView();
+
+        View.GetComponent<UnitInfoView>().StackUnitPopup(e.Popup, _gridModel.SelectedUnit.gameObject);
+    }
+
+    protected override void InstantiateView()
     {
         var viewRoot = GameObject.FindWithTag("PopupRoot");
         if (viewRoot == null)
@@ -41,12 +50,14 @@ public class GridPopupController : PopupController
         View.transform.SetParent(viewRoot.gameObject.transform, false);
     }
 
-    protected new void OnPopupClose(PopupEvents.ClosePopupEvent e)
+    protected override void OnPopupClose(PopupEvents.ClosePopupEvent e)
     {
         if(_gridModel.SelectedUnit != null)
         {
             _gridModel.SelectedUnit.DeSelect();
             _gridModel.SelectedUnit = null;
         }
+
+        View.GetComponent<PopupView>().ClosePopup();
     }
 }

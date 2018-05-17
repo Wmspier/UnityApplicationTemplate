@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshCollider), typeof(LineRenderer))]
@@ -45,9 +46,23 @@ public class Unit : MonoBehaviour {
         }
     }
 
+    public bool Selected{
+        get 
+        {
+            return _selected;
+        }
+        set 
+        {
+            _selected = value;
+            if(_selected)
+                EventSystem.instance.Dispatch(new UnitEvents.UnitSelectedEvent(this));
+        }
+    }
+
     public UnitState State{
         get { return _state; }
-        set {
+        set 
+        {
             _state = value;
             EventSystem.instance.Dispatch(new UnitEvents.UnitStateChangeEvent(value));
         }
@@ -55,26 +70,23 @@ public class Unit : MonoBehaviour {
     public LineRenderer MovementLine;
 
     private UnitState _state = UnitState.Unselected;
+    private bool _selected;
     private string _name;
     private int _maxMovement = 5;
     private int _remainingMovement;
-    private float _lerpToTileSpeed = 0.5f;
-    private float _lerpLength;
-    private float _lerpStartTime;
-    private int _tilesToTarget;
-    private Vector3 _lerpStart;
-    private Vector3 _lerpEnd;
+
+    private List<BaseUnitBehavior> _behaviors;
 
     private float _dragSensitivity = 1f;
     private float _mouseDragDistance;
     private Vector3 _mouseDownPosition;
 
-    private Tile _moveTargetTile;
-
     protected void Awake()
     {
         MovementLine = GetComponent<LineRenderer>();
         RemainingMovement = MaxMovement;
+
+        _behaviors = new List<BaseUnitBehavior> (GetComponents<BaseUnitBehavior>());
     }
 
     public void DeSelect()
@@ -84,30 +96,17 @@ public class Unit : MonoBehaviour {
 
     public void MoveToTarget(int tilesToTarget, float distance, Tile target)
     {
-        State = UnitState.Moving;
-
-        _tilesToTarget = tilesToTarget;
-        _lerpLength = distance;
-        _lerpStartTime = Time.time;
-        _moveTargetTile = target;
-        _lerpStart = transform.position;
-        _lerpEnd = _moveTargetTile.transform.position;
-        _lerpEnd.y += GetComponent<MeshRenderer>().bounds.extents.y;
+        var movememnt = GetBehavior<UnitMovement>();
+        if(movememnt)
+        {
+            State = UnitState.Moving;
+            movememnt.MoveToTarget(tilesToTarget, distance, target);
+        }
     }
 
-    private void Update()
+    public T GetBehavior<T>() where T : BaseUnitBehavior
     {
-        if(State == UnitState.Moving && _moveTargetTile != null && OccupyingTile != _moveTargetTile)
-        {
-            float distCovered = (Time.time - _lerpStartTime) * (_tilesToTarget * _lerpToTileSpeed);
-;           float fracJourney = distCovered / _lerpLength;
-            transform.position = Vector3.Lerp(_lerpStart, _lerpEnd, fracJourney);
-            if (transform.position.Equals(_lerpEnd))
-            {
-                OccupyingTile = _moveTargetTile;
-                State = UnitState.Unselected;
-            }
-        }
+        return _behaviors.FirstOrDefault(b => b.GetType().IsAssignableFrom(typeof(T))) as T;
     }
 
     private void OnMouseUpAsButton()
