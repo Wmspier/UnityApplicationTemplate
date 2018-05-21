@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 public class UnitInfoView : PopupView {
 
-    public void StackPopupOverUnit(PopupAsset popup, GameObject unit)
+    public void StackPopupOverUnit(PopupAsset popup, GameObject unitObject)
     {
         var form = Instantiate(popup.Popup).GetComponent<UnitInfoPopupForm>();
-        var unitInfo = unit.GetComponent<Unit>();
+        var unit = unitObject.GetComponent<Unit>();
 
-        form.UnitNameText.text = unitInfo.Name;
-        form.MovementText.text = string.Format("Remaining Movement: {0}", unitInfo.RemainingMovement);
+        form.UnitNameText.text = unit.Name;
+        form.MovementText.text = string.Format("Remaining Movement: {0}", unit.GetBehavior<Movement>().RemainingMovement);
 
         _popupContainer.Push(form.gameObject);
         _popupContainer.Peek().transform.SetParent(transform, false);
@@ -30,15 +30,22 @@ public class UnitInfoView : PopupView {
         form.transform.position = modPos;
     }
 
-    public void StackUnitPopup(PopupAsset popup, GameObject unit)
+    public void StackUnitPopup(PopupAsset popup, GameObject unitObject)
     {
         var form = Instantiate(popup.Popup).GetComponent<UnitInfoPopupForm>();
-        var unitInfo = unit.GetComponent<Unit>();
+        var unit = unitObject.GetComponent<Unit>();
+        form.transform.SetParent(transform);
+        form.gameObject.GetComponent<RectTransform>().offsetMin = new Vector2(0f, 0f);
+        form.gameObject.GetComponent<RectTransform>().offsetMax = new Vector2(0f, 0f);
 
-        form.UnitNameText.text = unitInfo.Name;
-        form.MovementText.text = string.Format("Remaining Movement: {0}", unitInfo.RemainingMovement);
+        form.UnitNameText.text = unit.Name;
+        form.MovementText.text = unit.GetBehavior<Movement>().RemainingMovement.ToString();
+        form.HealthText.text = unit.Health.ToString();
+        form.PowerText.text = unit.Power.ToString();
+        form.ArmorText.text = unit.Armor.ToString();
+        if (unit.Armor == 0)
+            form.ArmorObject.SetActive(false);
 
         _popupContainer.Push(form.gameObject);
-        _popupContainer.Peek().transform.SetParent(transform, false);
     }
 }

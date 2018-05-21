@@ -27,13 +27,26 @@ public class Tile : MonoBehaviour
         set {
             _selected = value;
             if(SelectedObject != null)
+            {
                 SelectedObject.SetActive(_selected);
+            }
+        }
+    }
+    public bool Occupied {
+        get {
+            return _occupyingUnit != null;
+        }
+    }
+    public Unit OccupyingUnit {
+        get {
+            return _occupyingUnit;
         }
     }
 
     private bool _traversable;
     private bool _selected;
     private MeshRenderer _renderer;
+    private Unit _occupyingUnit;
 
     public void Awake()
     {
@@ -50,5 +63,14 @@ public class Tile : MonoBehaviour
     public void OnTileSelected(GridEvents.TileSelectedEvent e)
     {
         Selected &= e.SelectedTile == this;
+    }
+
+    public void Occupy(Unit unit)
+    {
+        _occupyingUnit = unit;
+    }
+
+    public void UnOccupy(){
+        _occupyingUnit = null;
     }
 }

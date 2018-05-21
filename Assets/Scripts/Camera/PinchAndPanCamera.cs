@@ -108,7 +108,7 @@ public class PinchAndPanCamera : MonoBehaviour
 
     void PanCamera(Vector3 newPanPosition)
     {
-        if (IsIntersectingObject() || !_gridModel.AreUnitsInteracting())
+        if (_gridModel.AreUnitsInteracting())
             return;
         
         // Determine how much to move the camera

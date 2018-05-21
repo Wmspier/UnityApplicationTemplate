@@ -54,7 +54,7 @@ public class GridPopupController : PopupController
     {
         if(_gridModel.SelectedUnit != null)
         {
-            _gridModel.SelectedUnit.DeSelect();
+            _gridModel.SelectedUnit.Selected = false;
             _gridModel.SelectedUnit = null;
         }
 

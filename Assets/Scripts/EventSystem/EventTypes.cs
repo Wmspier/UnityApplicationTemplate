@@ -90,6 +90,9 @@ namespace UnitEvents
     public struct PlaceHeroEvent : BaseEvent
     {
     }
+    public struct PlaceUnitEvent : BaseEvent
+    {
+    }
     public struct UnitSelectedEvent : BaseEvent
     {
         public UnitSelectedEvent(Unit unit)
@@ -105,12 +108,37 @@ namespace UnitEvents
         }
         public Unit SelectedUnit;
     }
+    public struct UnitKilledEvent : BaseEvent {
+        public UnitKilledEvent(Unit unit)
+        {
+            Unit = unit;
+        }
+        public Unit Unit;
+    }
     public struct UnitStateChangeEvent : BaseEvent {
-        public UnitStateChangeEvent(Unit.UnitState state)
+        public UnitStateChangeEvent(Unit.UnitState state, Unit unit)
         {
             State = state;
+            Unit = unit;
         }
         public Unit.UnitState State;
+        public Unit Unit;
+    }
+}
+
+namespace CardEvents {
+    public struct CardPreviewEvent : BaseEvent {
+        public CardPreviewEvent(Card card) {
+            Card = card;
+        }
+        public Card Card;
+    }
+    public struct HideCardPreviewEvent : BaseEvent {
+        public HideCardPreviewEvent(Card card)
+        {
+            Card = card;
+        }
+        public Card Card;
     }
 }
 

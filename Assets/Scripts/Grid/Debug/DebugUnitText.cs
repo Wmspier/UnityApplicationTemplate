@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class DebugUnitText : MonoBehaviour {
 
+    private Unit _owner;
+
 	void Awake () 
     {
+        _owner = transform.parent.GetComponent<Unit>();
         EventSystem.instance.Connect<UnitEvents.UnitStateChangeEvent>(OnUnitStateChange);
 	}
     private void OnDestroy()
@@ -21,6 +24,9 @@ public class DebugUnitText : MonoBehaviour {
 
     void OnUnitStateChange(UnitEvents.UnitStateChangeEvent e)
     {
+        if (e.Unit != _owner)
+            return;
+        
         var text = GetComponentInChildren(typeof(Text)) as Text;
         text.text = e.State.ToString();
     }

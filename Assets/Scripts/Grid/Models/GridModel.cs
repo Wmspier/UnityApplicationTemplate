@@ -27,9 +27,10 @@ public class GridModel : Model
 
     public bool AreUnitsInteracting()
     {
-        return Units.Count == 0 ||
-               (GetUnitsInState(Unit.UnitState.Moving).Count == 0 &&
-                GetUnitsInState(Unit.UnitState.BeginMove).Count == 0 &&
-                GetUnitsInState(Unit.UnitState.Selected).Count == 0);
+        if (Units.Count == 0)
+            return false;
+        return (GetUnitsInState(Unit.UnitState.Moving).Count != 0 ||
+                GetUnitsInState(Unit.UnitState.Targeting).Count != 0 || 
+                SelectedUnit);
     }
 }
