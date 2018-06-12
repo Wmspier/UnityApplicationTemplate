@@ -35,6 +35,8 @@ class Startup
         //TODO - fix this
         app.RegisterModel<GameModel>();
         app.RegisterModel<GridModel>();
+        app.RegisterModel<HandModel>();
+        app.RegisterModel<HeroDeckModel>();
 
         app.RegisterController<NavigationController>();
         app.RegisterController<GridController>();

@@ -127,14 +127,45 @@ namespace UnitEvents
 }
 
 namespace CardEvents {
-    public struct CardPreviewEvent : BaseEvent {
+
+    public struct CardPreviewEvent : BaseEvent
+    {
         public CardPreviewEvent(Card card) {
             Card = card;
         }
         public Card Card;
     }
-    public struct HideCardPreviewEvent : BaseEvent {
+    public struct HideCardPreviewEvent : BaseEvent
+    {
         public HideCardPreviewEvent(Card card)
+        {
+            Card = card;
+        }
+        public Card Card;
+    }
+    public struct CardSelectEvent : BaseEvent
+    {
+        public CardSelectEvent(Card card)
+        {
+            Card = card;
+        }
+        public Card Card;
+    }
+    public struct CardDeselectEvent : BaseEvent
+    {
+        public CardDeselectEvent(Card card)
+        {
+            Card = card;
+        }
+        public Card Card;
+    }
+}
+
+namespace DeckEvents
+{
+    public struct AddCardToHandEvent : BaseEvent
+    {
+        public AddCardToHandEvent(Card card)
         {
             Card = card;
         }

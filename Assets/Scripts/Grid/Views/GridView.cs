@@ -10,15 +10,10 @@ public class GridView : View
     public Button PlaceUnitButton;
     public Button ResetMovementButton;
 
-    public CardView CardPreview;
-    private Card _previewingCard;
-
     private GridModel _model;
 
     void Awake()
     {
-        CardPreview.gameObject.SetActive(false);
-
         GenerateGridButton.onClick.AddListener(delegate
         {
             var gridEvent = new GridEvents.CreateDataEvent();
@@ -52,15 +47,11 @@ public class GridView : View
         _model = ApplicationFacade.instance.GetModel<GridModel>();
 
         EventSystem.instance.Connect<UnitEvents.UnitSelectedEvent>(OnUnitSelected);
-        EventSystem.instance.Connect<CardEvents.CardPreviewEvent>(OnCardPreviewed);
-        EventSystem.instance.Connect<CardEvents.HideCardPreviewEvent>(OnHideCardPreview);
     }
 
     private void OnDestroy()
     {
         EventSystem.instance.Disconnect<UnitEvents.UnitSelectedEvent>(OnUnitSelected);
-        EventSystem.instance.Disconnect<CardEvents.CardPreviewEvent>(OnCardPreviewed);
-        EventSystem.instance.Disconnect<CardEvents.HideCardPreviewEvent>(OnHideCardPreview);
     }
 
     private void OnUnitSelected(UnitEvents.UnitSelectedEvent e)
@@ -72,19 +63,5 @@ public class GridView : View
 
         var popup = AssetDatabase.instance.GetAsset<PopupAsset>("UNIT_INFO");
         EventSystem.instance.Dispatch(new PopupEvents.OpenPopupEvent(popup));
-    }
-
-    private void OnCardPreviewed(CardEvents.CardPreviewEvent e){
-        CardPreview.NameText.text = e.Card.Name;
-        CardPreview.DescriptionText.text = e.Card.Description;
-        CardPreview.HeroismText.text = e.Card.Cost.ToString();
-        CardPreview.gameObject.SetActive(true);
-        _previewingCard = e.Card;
-    }
-    private void OnHideCardPreview(CardEvents.HideCardPreviewEvent e) {
-        if (e.Card != _previewingCard)
-            return;
-        _previewingCard = null;
-        CardPreview.gameObject.SetActive(false);
     }
 }

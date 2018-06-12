@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroDeckModel : MonoBehaviour {
+public class HeroDeckModel : Model
+{
+    public List<CardModel> DeckContents;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public HeroDeckModel()
+    {
+        DeckContents = new List<CardModel>();
+    }
+
+    public CardModel DrawFromDeck()
+    {
+        //  TODO : handle empty deck condition
+
+        return DeckContents.Pop();
+    }
 }
